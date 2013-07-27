@@ -153,6 +153,16 @@ var _ = { };
   //   }, 0); // should be 6
   //
   _.reduce = function(collection, iterator, initialValue) {
+    if (arguments.length == 3) {
+      var total = initialValue;
+    }
+    else {
+      var total = 0;
+    }
+    _.each(collection, function(value, key, collection){
+      total = total + value;
+    });
+    return total;
   };
 
   // Determine if the array or object contains a given value (using `===`).
