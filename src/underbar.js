@@ -137,6 +137,16 @@ var _ = { };
 
   // Calls the method named by methodName on each value in the list.
   _.invoke = function(list, methodName, args) {
+    if (arguments.length === 3) {
+      var meth = eval(methodName + "(" + args + ")");
+    }
+    else {
+      var meth = eval(methodName + "()");
+    }
+    _.each(list, function(value, key, collection){
+      value.meth;
+    });
+    return list;
   };
 
   // Reduces an array or object to a single value by repetitively calling
@@ -268,6 +278,9 @@ var _ = { };
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var savedResults = {};
+    var currentResult = func(arg);
+    savedResults[arg] = currentResult;
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -287,6 +300,18 @@ var _ = { };
 
   // Shuffle an array.
   _.shuffle = function(array) {
+    var indexes = [];
+    var results = [];
+    for (var i = 0; i < array.length; i++) {
+      indexes[i] = i + 1;
+    }
+    indexes.sort(function(){
+      return Math.random() - 0.5;
+    });
+    for (var i = 0; i < array.length; i++) {
+      results[indexes[i]] = array[i];
+    }
+    return results;
   };
 
 
