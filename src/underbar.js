@@ -95,6 +95,13 @@ var _ = { };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var newArray = [];
+    _.each(array, function(value, key, collection){
+      if (_.indexOf(newArray, value) === -1) {
+        newArray.push(value);
+      }
+    });
+    return newArray;
   };
 
 
