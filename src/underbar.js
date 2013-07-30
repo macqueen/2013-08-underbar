@@ -137,16 +137,18 @@ var _ = { };
 
   // Calls the method named by methodName on each value in the list.
   _.invoke = function(list, methodName, args) {
-    if (arguments.length === 3) {
-      var meth = eval(methodName + "(" + args + ")");
+    var args = Array.prototype.slice.call(arguments);
+    args = args.slice(2, args.length - 1);
+    if (typeof methodName === 'function') {
+      return _.map(list, function(val) {
+        return (methodName).apply(val, args);
+      });
     }
-    else {
-      var meth = eval(methodName + "()");
+    else /* if (typeof methodName === 'string') */{
+      return _.map(list, function(val) {
+        return val[methodName].apply(val, args);
+      });
     }
-    _.each(list, function(value, key, collection){
-      value.meth;
-    });
-    return list;
   };
 
   // Reduces an array or object to a single value by repetitively calling
