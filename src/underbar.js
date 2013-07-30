@@ -59,7 +59,7 @@ var _ = { };
   _.indexOf = function(array, target){
     var index = -1;
     _.each(array, function(value, key, array){
-      if (value === target) {
+      if (value === target && index === -1) {
         index = key;
       }
     });
