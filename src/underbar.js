@@ -188,13 +188,22 @@ var _ = { };
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
-    var numTrue = _.reduce(collection, iterator);
+    return _.reduce(collection, function(value) {      
+      if (iterator(value)) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }, true);
+
+    /* var numTrue = _.reduce(collection, iterator);
     if (numTrue === collection.length) {
       return true;
     }
     else {
       return false;
-    }
+    } */
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
@@ -235,6 +244,17 @@ var _ = { };
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var args = Array.prototype.slice.call(arguments);
+    args = args.slice(1, args.length - 1);
+    var destination = args[0];
+    _.each(args, function(value, key, collection){
+      _.each(value, function(value1, key1, collection1){
+        if (_.contains(Object.keys(destination), key1) === false) {
+          destination[key1] = value1;
+        }
+      });
+    });
+    return destination;
   };
 
 
@@ -275,9 +295,7 @@ var _ = { };
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-    var savedResults = {};
-    var currentResult = func(arg);
-    savedResults[arg] = currentResult;
+
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -288,12 +306,9 @@ var _ = { };
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
     var args = Array.prototype.slice.call(arguments);
-    args = _.last(args, (args.length - 2));
-    args = args.toString();
-    console.log(args);
-    return setTimeout(function() {
-      func(parseInt(args[0]),parseInt(args[1]));
-      //return func.apply(_.last(args, (args.length - 2)));
+    args = args.slice(2, (args.length - 1));
+    return setTimeout(function() { 
+      return func.apply(args);
     }, wait);
   };
 
