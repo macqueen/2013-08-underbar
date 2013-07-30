@@ -144,10 +144,10 @@ var _ = { };
         return (methodName).apply(val, args);
       });
     }
-    else /* if (typeof methodName === 'string') */{
+    else if (typeof methodName === 'string') {
       return _.map(list, function(val) {
         return val[methodName].apply(val, args);
-      });
+      }); 
     }
   };
 
@@ -165,14 +165,9 @@ var _ = { };
   //   }, 0); // should be 6
   //
   _.reduce = function(collection, iterator, initialValue) {
-    if (arguments.length == 3) {
-      var total = initialValue;
-    }
-    else {
-      var total = 0;
-    }
-    _.each(collection, function(value, key, collection){
-      total = total + value;
+    var total = initialValue || 0;
+    _.each(collection, function(value, key, collection) {
+      total = iterator(total, value);
     });
     return total;
   };
