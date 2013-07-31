@@ -242,24 +242,23 @@ var _ = { };
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-    var destination = arguments[0];
-    _.each(arguments, function(value, key, collection){
-      _.each(value, function(value1, key1, collection1){
-        destination[key1] = value1;
+    var args = Array.prototype.slice.call(arguments, 1);
+    _.each(args, function(value, key, collection) {
+      _.each(value, function(value1, key1, collection1) {
+        obj[key1] = value1;
       });
     });
-    return destination;
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
-    var args = Array.prototype.slice.call(arguments);
-    args = args.slice(1, args.length);
+    var args = Array.prototype.slice.call(arguments, 1);
     var destination = args[0];
     _.each(args, function(value, key, collection){
       _.each(value, function(value1, key1, collection1){
-        if (_.contains(Object.keys(destination), key1) === false) {
+        if (!obj[key1]) {
           destination[key1] = value1;
         }
       });
@@ -267,6 +266,7 @@ var _ = { };
     return destination;
   };
 
+//_.contains(Object.keys(destination), key1) === false
 
   /**
    * FUNCTIONS
