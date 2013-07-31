@@ -211,8 +211,8 @@ var _ = { };
       };
     }
     return !!_.reduce(collection, function(value, item){
-      return tempIterator(value);
-    });
+      return value && tempIterator(item);
+    }, true);
 /*
     return !_.reduce(collection, function(value){
       if(iterator(value) === false) {
@@ -240,6 +240,17 @@ var _ = { };
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    if (typeof iterator === 'function') {
+      var tempIterator = iterator;
+    }
+    else {
+      var tempIterator = function(value) {
+        return value;
+      };
+    }
+    return !!_.reduce(collection, function(value, item){
+      return value || tempIterator(item);
+    }, false);
   };
 
 
