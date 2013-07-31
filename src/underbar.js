@@ -198,10 +198,10 @@ var _ = { };
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
-    /* var result = true;
-    if (typeof collection === 'undefined') {
-      return result;
-    } */
+    //var result = true;
+    //if (typeof collection[0] === 'undefined') {
+      //return result;
+    //}
     if (typeof iterator === 'function') {
       var tempIterator = iterator;
     }
