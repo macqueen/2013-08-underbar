@@ -198,22 +198,42 @@ var _ = { };
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
-    return _.reduce(collection, function(value) {      
+    /* var result = true;
+    if (typeof collection === 'undefined') {
+      return result;
+    } */
+    if (typeof iterator === 'function') {
+      var tempIterator = iterator;
+    }
+    else {
+      var tempIterator = function(value) {
+        return value;
+      };
+    }
+    return !!_.reduce(collection, function(value, item){
+      return tempIterator(value);
+    });
+/*
+    return !_.reduce(collection, function(value){
+      if(iterator(value) === false) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    }, true);
+
+    return _.reduce(collection, function(value){
+      return !!iterator(true, value);
+    }, true);
+      return _.reduce(collection, function(value) {      
       if (iterator(value)) {
         return true;
       }
       else {
         return false;
       }
-    }, true);
-
-    /* var numTrue = _.reduce(collection, iterator);
-    if (numTrue === collection.length) {
-      return true;
-    }
-    else {
-      return false;
-    } */
+    }, true); */
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
@@ -304,7 +324,20 @@ var _ = { };
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-
+    var results = {};
+    var iterator = function(value) {
+      return value;
+    };
+    return function() {
+      var args = iterator.apply(this, arguments);
+      if (!(args in results)) {
+        results[args] = func.apply(this, arguments);
+        return results[args];
+      }
+      else {
+        return results[args];
+      }
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
