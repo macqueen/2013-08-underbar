@@ -165,9 +165,19 @@ var _ = { };
   //   }, 0); // should be 6
   //
   _.reduce = function(collection, iterator, initialValue) {
-    var total = initialValue || 0;
+    if (arguments.length === 3) {
+      var total = initialValue;
+    }
+    else {
+      var total = undefined;
+    }
     _.each(collection, function(value, key, collection) {
-      total = iterator(total, value);
+      if (typeof total === 'undefined') {
+        total = value;
+      }
+      else {
+        total = iterator(total, value);
+      }
     });
     return total;
   };
@@ -245,7 +255,7 @@ var _ = { };
   // exists in obj
   _.defaults = function(obj) {
     var args = Array.prototype.slice.call(arguments);
-    args = args.slice(1, args.length - 1);
+    args = args.slice(1, args.length);
     var destination = args[0];
     _.each(args, function(value, key, collection){
       _.each(value, function(value1, key1, collection1){
@@ -306,7 +316,7 @@ var _ = { };
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
     var args = Array.prototype.slice.call(arguments);
-    args = args.slice(2, (args.length - 1));
+    args = args.slice(2, (args.length));
     return setTimeout(function() { 
       return func.apply(args);
     }, wait);
