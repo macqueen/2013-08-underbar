@@ -255,15 +255,14 @@ var _ = { };
   // exists in obj
   _.defaults = function(obj) {
     var args = Array.prototype.slice.call(arguments, 1);
-    var destination = args[0];
-    _.each(args, function(value, key, collection){
+    _.each(args, function(value, key, collection) {
       _.each(value, function(value1, key1, collection1){
-        if (!obj[key1]) {
-          destination[key1] = value1;
+        if (!(key1 in obj)) {
+          obj[key1] = value1;
         }
       });
     });
-    return destination;
+    return obj;
   };
 
 //_.contains(Object.keys(destination), key1) === false
